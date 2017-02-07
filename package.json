@@ -1,6 +1,6 @@
 {
   "name": "loopback-build-model-helper",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A simple helper to build loopback models in ES7 but that no collides with remote methods.",
   "main": "dist/index.js",
   "repository": "https://github.com/garusis/loopback-build-model-helper",
