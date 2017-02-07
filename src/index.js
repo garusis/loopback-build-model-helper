@@ -4,9 +4,9 @@ import _ from "lodash"
 import Promise from "bluebird"
 
 
-function ModelBuilder(Base, Model) {
-    this.Base = Base
-    this.Model = Model
+function ModelBuilder(OwnModel, LoopbackModel) {
+    this.Base = OwnModel
+    this.Model = LoopbackModel
 }
 
 function wrapFunction(fn, fnName, collection) {
