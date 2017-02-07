@@ -1,0 +1,42 @@
+{
+  "name": "loopback-build-model-helper",
+  "version": "0.0.1",
+  "description": "A simple helper for easy use of the debug package",
+  "main": "dist/index.js",
+  "repository": "git@github.com:garusis/debug-helper.git",
+  "author": "Marcos J. Alvarez <garusis@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "tool",
+    "util",
+    "debug",
+    "loopback"
+  ],
+  "scripts": {
+    "build": "gulp build && git commit --amend --no-edit",
+    "preversion": "yarn run build",
+    "git-push": "git push origin master --force && git push --follow-tags",
+    "release": "npm publish && yarn run git-push",
+    "patch-release": "npm version patch && npm run release",
+    "minor-release": "npm version minor && npm run release",
+    "major-release": "npm version major && npm run release"
+  },
+  "dependencies": {
+    "babel-runtime": "^6.22.0",
+    "bluebird": "^3.4.7",
+    "lodash": "^4.17.4"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.22.2",
+    "babel-plugin-transform-runtime": "^6.22.0",
+    "babel-preset-latest": "^6.22.0",
+    "del": "^2.2.2",
+    "eslint": "^3.14.1",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-sourcemaps": "^2.4.0",
+    "merge-stream": "^1.0.1",
+    "run-sequence": "^1.2.2"
+  }
+}
