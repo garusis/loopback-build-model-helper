@@ -26,10 +26,16 @@ var _bluebird2 = _interopRequireDefault(_bluebird);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var app = void 0;
+
 function ModelBuilder(OwnModel, LoopbackModel) {
     this.Base = OwnModel;
     this.Model = LoopbackModel;
 }
+
+ModelBuilder.config = function (settings) {
+    app = settings.app;
+};
 
 function wrapFunction(fn, fnName, collection) {
     if (!_lodash2.default.isFunction(fn)) return;

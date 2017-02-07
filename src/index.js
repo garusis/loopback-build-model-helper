@@ -3,10 +3,15 @@
 import _ from "lodash"
 import Promise from "bluebird"
 
+let app
 
 function ModelBuilder(OwnModel, LoopbackModel) {
     this.Base = OwnModel
     this.Model = LoopbackModel
+}
+
+ModelBuilder.config = function (settings) {
+    app = settings.app
 }
 
 function wrapFunction(fn, fnName, collection) {
