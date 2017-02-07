@@ -1,9 +1,9 @@
 {
   "name": "loopback-build-model-helper",
   "version": "0.0.1",
-  "description": "A simple helper for easy use of the debug package",
+  "description": "A simple helper to build loopback models in ES7 but that no collides with remote methods.",
   "main": "dist/index.js",
-  "repository": "git@github.com:garusis/debug-helper.git",
+  "repository": "https://github.com/garusis/loopback-build-model-helper",
   "author": "Marcos J. Alvarez <garusis@gmail.com>",
   "license": "MIT",
   "keywords": [
