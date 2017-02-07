@@ -16,19 +16,19 @@ npm i debug-helper
 ```
 ### Your scripts
 **ES6** imports.
-```ecmascript 6
+```
 import ModelBuilder from "loopback-build-model-helper"
 ```
 or **NodeJS** traditional require
-```ecmascript 6
+```
 const ModelBuilder = require("loopback-build-model-helper").default
 ```
 configure it
-```ecmascript 6
+```
 ModelBuilder.config({app:require("../server/server")})
 ```
 then use it
-```ecmascript 6
+```
 module.exports = function (_AppConstant) {
   let builder = new BuildHelper(AppConstant, _AppConstant)
 
