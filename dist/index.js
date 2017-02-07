@@ -136,7 +136,7 @@ ModelBuilder.assing = function (Base, Model) {
 };
 
 ModelBuilder.prototype.remoteMethod = function (name, options) {
-    this.Base.remoteMethod(name, options);
+    this.Model.remoteMethod(name, options);
 };
 
 /**
