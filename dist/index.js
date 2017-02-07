@@ -26,7 +26,7 @@ var _bluebird2 = _interopRequireDefault(_bluebird);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function BuildHelper(Base, Model) {
+function ModelBuilder(Base, Model) {
     this.Base = Base;
     this.Model = Model;
 }
@@ -127,7 +127,7 @@ function wrapFunction(fn, fnName, collection) {
     }));
 }
 
-BuildHelper.assing = function (Base, Model) {
+ModelBuilder.assing = function (Base, Model) {
     _lodash2.default.forEach(Base, wrapFunction);
     _lodash2.default.forEach(Base.prototype, wrapFunction);
 
@@ -135,7 +135,7 @@ BuildHelper.assing = function (Base, Model) {
     _lodash2.default.assign(Model.prototype, Base.prototype);
 };
 
-BuildHelper.prototype.remoteMethod = function (name, options) {
+ModelBuilder.prototype.remoteMethod = function (name, options) {
     this.Base.remoteMethod(name, options);
 };
 
@@ -145,20 +145,20 @@ BuildHelper.prototype.remoteMethod = function (name, options) {
  * @param Model
  * @return {Promise}
  */
-BuildHelper.prototype.build = function () {
+ModelBuilder.prototype.build = function () {
     var _this2 = this;
 
     return new _bluebird2.default(function (resolve, reject) {
         app.once("started", function () {
-            BuildHelper.assing(_this2.Base, _this2.Model);
+            ModelBuilder.assing(_this2.Base, _this2.Model);
             resolve(_this2.Base);
         });
     });
 };
 
 /**
- * BuildHelper class exists to allow you to effectively use the Webstorm autocomplementation tools.
+ * ModelBuilder class exists to allow you to effectively use the Webstorm autocomplementation tools.
  * @constructor
  */
-exports.default = BuildHelper;
+exports.default = ModelBuilder;
 //# sourceMappingURL=index.js.map

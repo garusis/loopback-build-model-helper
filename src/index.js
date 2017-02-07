@@ -4,7 +4,7 @@ import _ from "lodash"
 import Promise from "bluebird"
 
 
-function BuildHelper(Base, Model) {
+function ModelBuilder(Base, Model) {
     this.Base = Base
     this.Model = Model
 }
@@ -29,7 +29,7 @@ function wrapFunction(fn, fnName, collection) {
 }
 
 
-BuildHelper.assing = function (Base, Model) {
+ModelBuilder.assing = function (Base, Model) {
     _.forEach(Base, wrapFunction)
     _.forEach(Base.prototype, wrapFunction)
 
@@ -37,7 +37,7 @@ BuildHelper.assing = function (Base, Model) {
     _.assign(Model.prototype, Base.prototype)
 }
 
-BuildHelper.prototype.remoteMethod = function (name, options) {
+ModelBuilder.prototype.remoteMethod = function (name, options) {
     this.Base.remoteMethod(name, options)
 }
 
@@ -47,10 +47,10 @@ BuildHelper.prototype.remoteMethod = function (name, options) {
  * @param Model
  * @return {Promise}
  */
-BuildHelper.prototype.build = function () {
+ModelBuilder.prototype.build = function () {
     return new Promise((resolve, reject) => {
         app.once("started", () => {
-            BuildHelper.assing(this.Base, this.Model)
+            ModelBuilder.assing(this.Base, this.Model)
             resolve(this.Base)
         })
     })
@@ -58,7 +58,7 @@ BuildHelper.prototype.build = function () {
 
 
 /**
- * BuildHelper class exists to allow you to effectively use the Webstorm autocomplementation tools.
+ * ModelBuilder class exists to allow you to effectively use the Webstorm autocomplementation tools.
  * @constructor
  */
-export default BuildHelper
+export default ModelBuilder
