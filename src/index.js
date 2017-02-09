@@ -54,7 +54,7 @@ ModelBuilder.prototype.remoteMethod = function (name, options) {
  */
 ModelBuilder.prototype.build = function () {
     return new Promise((resolve, reject) => {
-        app.once("started", () => {
+        app.once("booted", () => {
             ModelBuilder.assing(this.Base, this.Model)
             resolve(this.Base)
         })

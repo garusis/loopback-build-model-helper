@@ -155,7 +155,7 @@ ModelBuilder.prototype.build = function () {
     var _this2 = this;
 
     return new _bluebird2.default(function (resolve, reject) {
-        app.once("started", function () {
+        app.once("booted", function () {
             ModelBuilder.assing(_this2.Base, _this2.Model);
             resolve(_this2.Base);
         });
