@@ -82,3 +82,21 @@ module.exports = function (_AppConstant) {
   }
 }
 ```
+## Overwriting
+
+Overwrite built-in methods can be do it in the same way that 
+you define new methods. To avoid some stupid issues, if you want to 
+overwrite a built-in method, your function will receive a last argument **old**
+that which is in fact the overwritten function.
+```
+  //overwriting the create method.
+  MyModel.create = async function (data, options, old) {
+    //do something with data or other models.
+    
+    let newMy = await old.call(this, data, options)
+    
+    // do something more
+    
+    return newMy
+  }
+```

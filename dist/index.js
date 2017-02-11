@@ -40,6 +40,8 @@ ModelBuilder.config = function (settings) {
 function wrapFunction(fn, fnName, collection) {
     if (!_lodash2.default.isFunction(fn)) return;
 
+    var oldFn = collection[fnName] || false;
+
     collection[fnName] = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         var _this = this;
 
@@ -56,8 +58,9 @@ function wrapFunction(fn, fnName, collection) {
                         cb = void 0;
 
                         if (_lodash2.default.isFunction(args[args.length - 1])) cb = args.pop();
+                        if (oldFn) args.push(oldFn);
 
-                        _context2.prev = 3;
+                        _context2.prev = 4;
                         return _context2.delegateYield(_regenerator2.default.mark(function _callee() {
                             var response;
                             return _regenerator2.default.wrap(function _callee$(_context) {
@@ -92,28 +95,28 @@ function wrapFunction(fn, fnName, collection) {
                                     }
                                 }
                             }, _callee, _this);
-                        })(), "t0", 5);
+                        })(), "t0", 6);
 
-                    case 5:
+                    case 6:
                         _ret = _context2.t0;
 
                         if (!((typeof _ret === "undefined" ? "undefined" : (0, _typeof3.default)(_ret)) === "object")) {
-                            _context2.next = 8;
+                            _context2.next = 9;
                             break;
                         }
 
                         return _context2.abrupt("return", _ret.v);
 
-                    case 8:
-                        _context2.next = 15;
+                    case 9:
+                        _context2.next = 16;
                         break;
 
-                    case 10:
-                        _context2.prev = 10;
-                        _context2.t1 = _context2["catch"](3);
+                    case 11:
+                        _context2.prev = 11;
+                        _context2.t1 = _context2["catch"](4);
 
                         if (!cb) {
-                            _context2.next = 14;
+                            _context2.next = 15;
                             break;
                         }
 
@@ -121,15 +124,15 @@ function wrapFunction(fn, fnName, collection) {
                             return cb(_context2.t1);
                         }));
 
-                    case 14:
+                    case 15:
                         throw _context2.t1;
 
-                    case 15:
+                    case 16:
                     case "end":
                         return _context2.stop();
                 }
             }
-        }, _callee2, this, [[3, 10]]);
+        }, _callee2, this, [[4, 11]]);
     }));
 }
 

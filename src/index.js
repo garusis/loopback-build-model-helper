@@ -17,10 +17,13 @@ ModelBuilder.config = function (settings) {
 function wrapFunction(fn, fnName, collection) {
     if (!_.isFunction(fn)) return
 
+    let oldFn = collection[fnName] || false
+
     collection[fnName] = async function () {
         let args = _.toArray(arguments)
         let cb
         if (_.isFunction(args[args.length - 1])) cb = args.pop()
+        if (oldFn) args.push(oldFn)
 
         try {
             let response = await fn.apply(this, args)
@@ -41,6 +44,7 @@ ModelBuilder.assing = function (Base, Model) {
     _.assign(Model, Base)
     _.assign(Model.prototype, Base.prototype)
 }
+
 
 ModelBuilder.prototype.remoteMethod = function (name, options) {
     this.Model.remoteMethod(name, options)
