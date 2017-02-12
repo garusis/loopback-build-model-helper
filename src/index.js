@@ -14,12 +14,12 @@ ModelBuilder.config = function (settings) {
     app = settings.app
 }
 
-function wrapFunction(fn, fnName, collection) {
+function wrapFunction(fn, fnName, collection, Model) {
     if (!_.isFunction(fn)) return
 
-    let oldFn = collection[fnName] || false
+    let oldFn = Model[fnName] || false
 
-    collection[fnName] = function () {
+    Model[fnName] = collection[fnName] = function () {
         let args = _.toArray(arguments)
         let cb = _.isFunction(args[args.length - 1]) ? args.pop() : false
 
@@ -34,12 +34,9 @@ function wrapFunction(fn, fnName, collection) {
 }
 
 
-ModelBuilder.assing = function (Base, Model) {
-    _.forEach(Base, wrapFunction)
-    _.forEach(Base.prototype, wrapFunction)
-
-    _.assign(Model, Base)
-    _.assign(Model.prototype, Base.prototype)
+ModelBuilder.assign = function (Base, Model) {
+    _.forEach(Base, (fn, fnName, collection) => wrapFunction(fn, fnName, collection, Model))
+    _.forEach(Base.prototype, (fn, fnName, collection) => wrapFunction(fn, fnName, collection, Model))
 }
 
 
@@ -49,14 +46,12 @@ ModelBuilder.prototype.remoteMethod = function (name, options) {
 
 /**
  *
- * @param Base
- * @param Model
  * @return {Promise}
  */
 ModelBuilder.prototype.build = function () {
     return new Promise((resolve, reject) => {
         app.once("booted", () => {
-            ModelBuilder.assing(this.Base, this.Model)
+            ModelBuilder.assign(this.Base, this.Model)
             resolve(this.Base)
         })
     })

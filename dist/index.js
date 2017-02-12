@@ -25,14 +25,14 @@ ModelBuilder.config = function (settings) {
     app = settings.app;
 };
 
-function wrapFunction(fn, fnName, collection) {
+function wrapFunction(fn, fnName, collection, Model) {
     if (!_lodash2.default.isFunction(fn)) return;
 
-    var oldFn = collection[fnName] || false;
+    var oldFn = Model[fnName] || false;
 
-    collection[fnName] = function () {
+    Model[fnName] = collection[fnName] = function () {
         var args = _lodash2.default.toArray(arguments);
-        var cb = _lodash2.default.isFunction(args[args.length - 1]) ? args.pop() : void 0;
+        var cb = _lodash2.default.isFunction(args[args.length - 1]) ? args.pop() : false;
 
         if (oldFn) args.push(oldFn);
 
@@ -44,12 +44,13 @@ function wrapFunction(fn, fnName, collection) {
     };
 }
 
-ModelBuilder.assing = function (Base, Model) {
-    _lodash2.default.forEach(Base, wrapFunction);
-    _lodash2.default.forEach(Base.prototype, wrapFunction);
-
-    _lodash2.default.assign(Model, Base);
-    _lodash2.default.assign(Model.prototype, Base.prototype);
+ModelBuilder.assign = function (Base, Model) {
+    _lodash2.default.forEach(Base, function (fn, fnName, collection) {
+        return wrapFunction(fn, fnName, collection, Model);
+    });
+    _lodash2.default.forEach(Base.prototype, function (fn, fnName, collection) {
+        return wrapFunction(fn, fnName, collection, Model);
+    });
 };
 
 ModelBuilder.prototype.remoteMethod = function (name, options) {
@@ -58,8 +59,6 @@ ModelBuilder.prototype.remoteMethod = function (name, options) {
 
 /**
  *
- * @param Base
- * @param Model
  * @return {Promise}
  */
 ModelBuilder.prototype.build = function () {
@@ -67,7 +66,7 @@ ModelBuilder.prototype.build = function () {
 
     return new _bluebird2.default(function (resolve, reject) {
         app.once("booted", function () {
-            ModelBuilder.assing(_this.Base, _this.Model);
+            ModelBuilder.assign(_this.Base, _this.Model);
             resolve(_this.Base);
         });
     });
