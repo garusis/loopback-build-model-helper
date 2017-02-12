@@ -21,7 +21,7 @@ function wrapFunction(fn, fnName, collection) {
 
     collection[fnName] = function () {
         let args = _.toArray(arguments)
-        let cb = _.isFunction(args[args.length - 1]) ? args.pop() : void 0
+        let cb = _.isFunction(args[args.length - 1]) ? args.pop() : false
 
         if (oldFn) args.push(oldFn)
 
