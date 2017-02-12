@@ -19,20 +19,17 @@ function wrapFunction(fn, fnName, collection) {
 
     let oldFn = collection[fnName] || false
 
-    collection[fnName] = async function () {
+    collection[fnName] = function () {
         let args = _.toArray(arguments)
-        let cb
-        if (_.isFunction(args[args.length - 1])) cb = args.pop()
+        let cb = _.isFunction(args[args.length - 1]) ? args.pop() : void 0
+
         if (oldFn) args.push(oldFn)
 
-        try {
-            let response = await fn.apply(this, args)
-            if (cb) return process.nextTick(() => cb(null, response))
-            return response
-        } catch (err) {
-            if (cb) return process.nextTick(() => cb(err))
-            throw err
-        }
+        if (!cb) return fn.apply(this, args)
+
+        fn.apply(this, args)
+            .then((response) => cb(null, response))
+            .catch(cb)
     }
 }
 
